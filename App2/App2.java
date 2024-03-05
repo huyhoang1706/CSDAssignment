@@ -1,7 +1,6 @@
 package App2;
 import shared.FileManage;
 import shared.Input;
-import shared.TaxPayer;
 
 public class App2 {
     private final Input input = new Input();
