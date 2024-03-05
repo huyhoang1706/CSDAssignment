@@ -2,8 +2,6 @@ import App1.App1;
 import shared.Input;
 import App2.App2;
 
-import java.util.LinkedList;
-
 public class Main {
     public static void main(String[] args) {
         App1 app1 = new App1();

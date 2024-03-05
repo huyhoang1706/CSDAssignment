@@ -3,7 +3,7 @@ package App1;
 import shared.Input;
 import shared.TaxPayer;
 
-public class LinkList<T extends Comparable<T> > {
+public class LinkList {
     private static class Node {
         TaxPayer infor;
         Node next;
