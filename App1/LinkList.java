@@ -4,41 +4,37 @@ import shared.Input;
 import shared.TaxPayer;
 
 public class LinkList<T extends Comparable<T> > {
-    private static class Node<T> {
-        T infor;
-        Node<T> next;
+    private static class Node {
+        TaxPayer infor;
+        Node next;
 
-        public Node() {
-        }
-
-        public Node(T infor, Node<T> next) {
+        public Node(TaxPayer infor, Node next) {
             this.infor = infor;
             this.next = next;
         }
 
-        public Node(T infor) {
-            this.infor = infor;
-            this.next = null;
+        public Node(TaxPayer infor) {
+            this(infor, null);
         }
 
-        public T getInfor() {
+        public TaxPayer getInfor() {
             return infor;
         }
 
-        public void setInfor(T infor) {
+        public void setInfor(TaxPayer infor) {
             this.infor = infor;
         }
 
-        public Node<T> getNext() {
+        public Node getNext() {
             return next;
         }
 
-        public void setNext(Node<T> next) {
+        public void setNext(Node next) {
             this.next = next;
         }
     }
     private final Input input = new Input();
-    private Node<T> head, tail;
+    private Node head, tail;
     // Public:
     public void addToEnd() {
         TaxPayer taxPayer = input.getTaxPayer();
@@ -59,5 +55,9 @@ public class LinkList<T extends Comparable<T> > {
     public void deleteAt() {}
 
     public void addToEnd(TaxPayer taxPayer) {}
+
+    public boolean isEmpty() {
+        return head == null && tail == null;
+    }
     // Private:
 }

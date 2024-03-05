@@ -56,7 +56,6 @@ public class Input {
     public String getString (String message, String type) {
         String regex = "";
         switch (type) {
-            case "Code" -> regex = "^[A-Z][0-9]{1,2}$";
             case "name" -> regex = "\\b([A-Z][a-z]+\\s*)+";
         }
         while (true) {
@@ -68,23 +67,23 @@ public class Input {
                 } else {
                     System.out.println("Invalid input.");
                 }
+            } else {
+                System.out.println("Input cannot be empty");
             }
-            System.out.println("Input cannot be empty");
         }
     }
 
     public TaxPayer getTaxPayer() {
         TaxPayer taxPayer = new TaxPayer();
-        String code = getString("Enter Code: ", "Code");
-        String name = getString("Enter name", "name");
+        Integer code = getInt("Enter Code: ", 0, Integer.MAX_VALUE);
+        String name = getString("Enter name: ", "name");
         double income = getDouble("Enter Income: ", 0, Double.MAX_VALUE);
         double deduction = getDouble("Enter deduction: ", 0, income);
-        double tax = taxPayer.getTax();
         taxPayer.setCode(code);
         taxPayer.setName(name);
         taxPayer.setIncome(income);
         taxPayer.setDeduct(deduction);
-        taxPayer.setTax(tax);
+        taxPayer.setTax(taxPayer.getTax());
         return taxPayer;
     }
 }

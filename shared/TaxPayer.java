@@ -1,6 +1,6 @@
 package shared;
 public class TaxPayer implements Comparable<TaxPayer>{
-    private String code;
+    private Integer code;
     private String name;
     private double income;
     private double deduct;
@@ -8,7 +8,7 @@ public class TaxPayer implements Comparable<TaxPayer>{
 
     public TaxPayer() {
     }
-    public TaxPayer(String code, String name, double income, double deduct, double tax) {
+    public TaxPayer(Integer code, String name, double income, double deduct, double tax) {
         this.code = code;
         this.name = name;
         this.income = income;
@@ -16,11 +16,11 @@ public class TaxPayer implements Comparable<TaxPayer>{
         this.tax = tax;
     }
 
-    public String getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
@@ -73,6 +73,6 @@ public class TaxPayer implements Comparable<TaxPayer>{
 
     @Override
     public String toString() {
-        return code+"_"+name+"_"+income+"_"+deduct+"_"+tax;
+        return "{ "+code+", "+name+", "+income+", "+deduct+", "+tax+" }";
     }
 }
