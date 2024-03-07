@@ -6,6 +6,7 @@ public class Node {
     private TaxPayer data;
     private Node left, right;
 
+    private int height;
     public Node() {
     }
 
@@ -13,12 +14,14 @@ public class Node {
         this.data = data;
         this.left = left;
         this.right = right;
+        this.height = 0;
     }
 
     public Node(TaxPayer data) {
         this.data = data;
         this.left = null;
         this.right = null;
+        this.height = 0;
     }
 
     public TaxPayer getData() {
@@ -43,6 +46,14 @@ public class Node {
 
     public void setRight(Node right) {
         this.right = right;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 
     @Override
