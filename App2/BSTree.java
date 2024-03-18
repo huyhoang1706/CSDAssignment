@@ -23,6 +23,10 @@ public class BSTree {
         this.root = new Node(data);
     }
 
+    public Node getRoot() {
+        return root;
+    }
+
     public void insert() {
         TaxPayer taxPayer = input.getTaxPayer();
         if (contain(taxPayer.getCode())) {

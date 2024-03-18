@@ -2,13 +2,13 @@ package App2;
 
 import shared.TaxPayer;
 
-import java.util.LinkedList;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AVLTree extends BSTree {
 
     private Node root;
-
-    boolean shorter = true;
     public AVLTree() {
     }
 
@@ -80,8 +80,19 @@ public class AVLTree extends BSTree {
         return height(N.getLeft()) - height(N.getRight());
     }
 
-    private Node balance_insert(Node node, TaxPayer taxPayer)
+    private Node insert(Node node, TaxPayer taxPayer)
     {
+        /* 1. Perform the normal BST rotation */
+        if (node == null)
+            return (new Node(taxPayer));
+
+        if (taxPayer.getCode().compareTo(node.getData().getCode()) > 0) {
+            node.setLeft(insert(node.getLeft(), taxPayer));
+        }
+        else if (taxPayer.getCode().compareTo(node.getData().getCode()) < 0)
+            node.setRight(insert(node.getRight(), taxPayer));
+        else // Equal keys not allowed
+            return node;
 
         /* 2. Update height of this ancestor node */
         node.setHeight(1 + max(height(node.getLeft()),
@@ -130,52 +141,39 @@ public class AVLTree extends BSTree {
         return current;
     }
 
-    private Node balance_deleteNode(Node root)
-    {
+    public void insert() {
+        super.insert();
 
-        // UPDATE HEIGHT OF THE CURRENT NODE
-        root.setHeight(max(height(root.getLeft()), height(root.getRight())) + 1);
+        root = super.getRoot();
+        List<TaxPayer> taxPayerList = new ArrayList<>();
+        storeNodes(root, taxPayerList);
 
-        // GET THE BALANCE FACTOR OF THIS NODE (to check whether
-        // this node became unbalanced)
-        int balance = getBalance(root);
-
-        // If this node becomes unbalanced, then there are 4 cases
-        // Left Left Case
-        if (balance > 1 && getBalance(root.getLeft()) >= 0)
-            return rightRotate(root);
-
-        // Left Right Case
-        if (balance > 1 && getBalance(root.getLeft()) < 0)
-        {
-            root.setLeft(leftRotate(root.getLeft()));
-            return rightRotate(root);
+        for (TaxPayer taxPayer : taxPayerList) {
+            root = insert(root, taxPayer);
         }
-
-        // Right Right Case
-        if (balance < -1 && getBalance(root.getRight()) <= 0)
-            return leftRotate(root);
-
-        // Right Left Case
-        if (balance < -1 && getBalance(root.getRight()) > 0)
-        {
-            root.setRight(rightRotate(root.getRight()));
-            return leftRotate(root);
-        }
-
-        return root;
-    }
-
-    public void insert(TaxPayer taxPayer) {
-        super.insert(taxPayer);
-        root = balance_insert(root, taxPayer);
-
     }
 
     public void deleteCode() {
         super.deleteCode();
 
-        root = balance_deleteNode(root);
+        root = super.getRoot();
+        List<TaxPayer> taxPayerList = new ArrayList<>();
+        storeNodes(root, taxPayerList);
+
+        for (TaxPayer taxPayer : taxPayerList) {
+            root = insert(root, taxPayer);
+        }
+    }
+
+    private void storeNodes(Node node, List<TaxPayer> taxPayerList) {
+        if (node == null) {
+            return;
+        }
+
+        storeNodes(node.getLeft(), taxPayerList);
+        taxPayerList.add(node.getData());
+        storeNodes(node.getRight(), taxPayerList);
     }
 
 }
+
