@@ -138,7 +138,7 @@ public class LinkList <E extends Comparable<E>>{
 //        }
 //        System.out.println(p.toString());
 //    }
-    
+
     public void deleteByCode() {
         String code = input.getString("Enter Code: ");
         if (head == null) {
@@ -167,7 +167,61 @@ public class LinkList <E extends Comparable<E>>{
         System.out.println("Node with code " + code + " not found in the list.");
     }
 
+    void dele() {
+        int xPrice = input.getInt("Enter code: ", 1, Integer.MAX_VALUE);
+        int j = 0;
+        Node p = head;
+        while (p != null) {
+            if (p.infor.getCode() == xPrice) { //edit here
+                break;
+            }
+            p = p.next;
+        }
+        if (p != null) {
+            dele(p);
+        }
+    }
 
+    void dele(Node q) {
+        Node f, p;
+        f = null;
+        p = head;
+        while (p != null) {
+            if (p == q) {
+                break;
+            }
+            f = p;
+            p = p.next;
+        }
+        if (p == null) {
+            return;//q is not found
+        }
+        if (f == null) {
+            head = head.next;
+            if (head == null) {
+                tail = null;
+            }
+            return;
+        }
+        f.next = p.next;
+        if (f.next == null) {
+            tail = f;
+        }
+    }
+    void search() {
+        int xPrice = input.getInt("Enter code: ", 1, Integer.MAX_VALUE);
+        int j = 0;
+        Node p = head;
+        while (p != null) {
+            if (p.infor.getCode() == xPrice) { //edit here
+                break;
+            }
+            p = p.next;
+        }
+        if (p != null) {
+            System.out.println(p.infor.toString());
+        }
+    }
     public void sortByCode() {
         Node currNode = head;
         while (currNode != null) {

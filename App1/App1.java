@@ -22,8 +22,8 @@ public class App1 {
                 case 2 -> linkList.addToEnd();
                 case 3 -> linkList.displayData(linkList);
                 case 4 -> fileManager.saveToFile(linkList);
-                case 5 -> linkList.searchByCode();
-                case 6 -> linkList.deleteByCode();
+                case 5 -> linkList.search();
+                case 6 -> linkList.dele();
                 case 7 -> linkList.sortByCode();
                 case 8 -> linkList.addToBeginning();
                 case 9 -> linkList.addAfterPosition();
