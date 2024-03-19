@@ -33,7 +33,6 @@ public class FileManage {
             System.err.println("Load successful!");
         } catch (FileNotFoundException e) {
             System.out.println("ERROR. FILE NOT FOUND");
-            e.printStackTrace();
         }
     }
 
@@ -57,7 +56,6 @@ public class FileManage {
             System.err.println("Load successful!");
         } catch (FileNotFoundException e) {
             System.out.println("ERROR. FILE NOT FOUND");
-            e.printStackTrace();
         }
     }
 

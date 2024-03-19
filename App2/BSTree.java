@@ -25,11 +25,14 @@ public class BSTree {
 
     public void insert() {
         TaxPayer taxPayer = input.getTaxPayer();
+        if (contain(taxPayer.getCode())) {
+            System.out.println("This code is already exist");
+            return;
+        }
         insert(taxPayer);
     }
 
     public void insert(TaxPayer taxPayer) {
-        if (contain(taxPayer.getCode())) return;
         root = insert(root, taxPayer);
         count++;
     }
@@ -59,7 +62,7 @@ public class BSTree {
     public void balance() {
         //Solution: traverse nodes in Inorder and one by one insert into a self-balancing BST
         root = balanceBST(root);
-        preOrderTraverse();
+        breadthFirstTraverse();
     }
 
     public void inOrderTraverseToFile() {
@@ -146,23 +149,40 @@ public class BSTree {
         return search(node.getLeft(), searchCode);
     }
 
+    // Delete by Copying
     private Node delete(Node node, Integer deleteCode) {
         if (node == null) return node;
 
         if (deleteCode.compareTo(node.getData().getCode()) < 0) {
             node.setLeft(delete(node.getLeft(), deleteCode));
+            return node;
         } else if (deleteCode.compareTo(node.getData().getCode()) > 0) {
             node.setRight(delete(node.getRight(), deleteCode));
-        } else {
-            if (node.getLeft() == null) {
-                return node.getRight();
-            } else if (node.getRight() == null) {
-                return node.getLeft();
-            }
-            node.setData(minValue(node.getRight()));
-            node.setRight(delete(node.getRight(), node.getData().getCode()));
+            return node;
         }
-        return node;
+        // If one of the children is empty
+        if (node.getLeft() == null) {
+            return node.getRight();
+        } else if (node.getRight() == null) {
+            return node.getLeft();
+        }
+        // If both children exist
+        else {
+            Node successorParent = node;
+            Node successor = node.getRight();
+            while (successor.getLeft() != null) {
+                successorParent = successor;
+                successor = successor.getLeft();
+            }
+            if (successorParent != node) {
+                successorParent.setLeft(successor.getRight());
+            } else {
+                successorParent.setRight(successor.getRight());
+            }
+            node.setData(successor.getData());
+            return node;
+        }
+
     }
 
     // Utility method to find the minimum value in a subtree
@@ -175,11 +195,11 @@ public class BSTree {
         return minValue;
     }
 
-    private void storeNode(Node node, List<Node> nodes) {
+    private void getArrayListInOrder(Node node, List<Node> nodes) {
         if (node == null) return;
-        storeNode(node.getLeft(), nodes);
+        getArrayListInOrder(node.getLeft(), nodes);
         nodes.add(node);
-        storeNode(node.getRight(), nodes);
+        getArrayListInOrder(node.getRight(), nodes);
     }
 
     private Node constructSelfBalanceBST(List<Node> nodes, int start, int end) {
@@ -196,7 +216,7 @@ public class BSTree {
 
     private Node balanceBST(Node node) {
         List<Node> nodes = new ArrayList<>();
-        storeNode(node, nodes);
+        getArrayListInOrder(node, nodes);
         int size = nodes.size();
         return constructSelfBalanceBST(nodes, 0, size-1);
     }
