@@ -15,5 +15,5 @@ public class Menu {
         System.out.println("0. Exit");
     }
 
-    public static void displayData() {}
+
 }

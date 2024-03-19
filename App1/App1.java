@@ -7,7 +7,7 @@ import shared.TaxPayer;
 public class App1 {
     private final Input input = new Input();
     private final FileManage fileManager = new FileManage();
-    private final LinkList<TaxPayer> linkList = new LinkList<TaxPayer>();
+    private final LinkList linkList = new LinkList();
     public void run() {
 
         while (true) { // Infinite Loop
@@ -20,7 +20,7 @@ public class App1 {
                 case 0 -> System.exit(0);
                 case 1 -> fileManager.loadFromFile(linkList);
                 case 2 -> linkList.addToEnd();
-                case 3 -> Menu.displayData();
+                case 3 -> linkList.displayData(linkList);
                 case 4 -> fileManager.saveToFile(linkList);
                 case 5 -> linkList.searchByCode();
                 case 6 -> linkList.deleteByCode();
