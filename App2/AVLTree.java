@@ -2,7 +2,6 @@ package App2;
 
 import shared.TaxPayer;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,14 +9,11 @@ public class AVLTree extends BSTree {
 
     private Node root;
     public AVLTree() {
+        root = null;
     }
 
     public AVLTree(TaxPayer data) {
         super(data);
-    }
-
-    boolean isEmpty() {
-        return (root == null);
     }
 
     // A utility function to get height of the tree
@@ -104,22 +100,23 @@ public class AVLTree extends BSTree {
         int balance = getBalance(node);
 
         // If this node becomes unbalanced, then
-        // there are 4 cases Left Left Case
+        // there are 4 cases:
+        // Left-Left Case
         if (balance > 1 && taxPayer.getCode().compareTo(node.getLeft().getData().getCode()) < 0)
             return rightRotate(node);
 
-        // Right Right Case
+        // Right-Right Case
         if (balance < -1 && taxPayer.getCode().compareTo(node.getRight().getData().getCode()) > 0)
             return leftRotate(node);
 
-        // Left Right Case
+        // Left-Right Case
         if (balance > 1 && taxPayer.getCode().compareTo(node.getLeft().getData().getCode()) > 0)
         {
             node.setLeft(leftRotate(node.getLeft()));
             return rightRotate(node);
         }
 
-        // Right Left Case
+        // Right-Left Case
         if (balance < -1 && taxPayer.getCode().compareTo(node.getRight().getData().getCode()) < 0)
         {
             node.setRight(rightRotate(node.getRight()));
