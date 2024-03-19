@@ -27,6 +27,10 @@ public class BSTree {
         return root;
     }
 
+    public void setRoot(Node root) {
+        this.root = root;
+    }
+
     public void insert() {
         TaxPayer taxPayer = input.getTaxPayer();
         insert(taxPayer);

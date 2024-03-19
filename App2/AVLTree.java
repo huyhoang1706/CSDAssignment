@@ -38,6 +38,10 @@ public class AVLTree extends BSTree {
     // See the diagram given above.
     Node rightRotate(Node y)
     {
+        if (y == null || y.getLeft() == null) {
+
+            return y;
+        }
         Node x = y.getLeft();
         Node T2 = x.getRight();
 
@@ -57,6 +61,9 @@ public class AVLTree extends BSTree {
     // See the diagram given above.
     Node leftRotate(Node x)
     {
+        if (x == null || x.getRight() == null) {
+            return x;
+        }
         Node y = x.getRight();
         Node T2 = y.getLeft();
 
@@ -80,52 +87,52 @@ public class AVLTree extends BSTree {
         return height(N.getLeft()) - height(N.getRight());
     }
 
-    private Node insert(Node node, TaxPayer taxPayer)
+    public Node insert(Node node, TaxPayer taxPayer)
     {
         /* 1. Perform the normal BST rotation */
-        if (node == null)
+        if (node == null) {
             return (new Node(taxPayer));
+        } else {
+            if (taxPayer.getCode().compareTo(node.getData().getCode()) < 0) {
+                node.setLeft(insert(node.getLeft(), taxPayer));
+            }
+            else if (taxPayer.getCode().compareTo(node.getData().getCode()) > 0)
+                node.setRight(insert(node.getRight(), taxPayer));
+            else // Equal keys not allowed
+                return node;
 
-        if (taxPayer.getCode().compareTo(node.getData().getCode()) > 0) {
-            node.setLeft(insert(node.getLeft(), taxPayer));
-        }
-        else if (taxPayer.getCode().compareTo(node.getData().getCode()) < 0)
-            node.setRight(insert(node.getRight(), taxPayer));
-        else // Equal keys not allowed
-            return node;
-
-        /* 2. Update height of this ancestor node */
-        node.setHeight(1 + max(height(node.getLeft()),
-                height(node.getRight())));
+            /* 2. Update height of this ancestor node */
+            node.setHeight(1 + max(height(node.getLeft()),
+                    height(node.getRight())));
 
         /* 3. Get the balance factor of this ancestor
         node to check whether this node became
         unbalanced */
-        int balance = getBalance(node);
+            int balance = getBalance(node);
 
-        // If this node becomes unbalanced, then
-        // there are 4 cases Left Left Case
-        if (balance > 1 && taxPayer.getCode().compareTo(node.getLeft().getData().getCode()) < 0)
-            return rightRotate(node);
+            // If this node becomes unbalanced, then
+            // there are 4 cases Left Left Case
+            if (balance > 1 && taxPayer.getCode().compareTo(node.getLeft().getData().getCode()) < 0)
+                return rightRotate(node);
 
-        // Right Right Case
-        if (balance < -1 && taxPayer.getCode().compareTo(node.getRight().getData().getCode()) > 0)
-            return leftRotate(node);
+            // Right Right Case
+            if (balance < -1 && taxPayer.getCode().compareTo(node.getRight().getData().getCode()) > 0)
+                return leftRotate(node);
 
-        // Left Right Case
-        if (balance > 1 && taxPayer.getCode().compareTo(node.getLeft().getData().getCode()) > 0)
-        {
-            node.setLeft(leftRotate(node.getLeft()));
-            return rightRotate(node);
+            // Left Right Case
+            if (balance > 1 && taxPayer.getCode().compareTo(node.getLeft().getData().getCode()) > 0)
+            {
+                node.setLeft(leftRotate(node.getLeft()));
+                return rightRotate(node);
+            }
+
+            // Right Left Case
+            if (balance < -1 && taxPayer.getCode().compareTo(node.getRight().getData().getCode()) < 0)
+            {
+                node.setRight(rightRotate(node.getRight()));
+                return leftRotate(node);
+            }
         }
-
-        // Right Left Case
-        if (balance < -1 && taxPayer.getCode().compareTo(node.getRight().getData().getCode()) < 0)
-        {
-            node.setRight(rightRotate(node.getRight()));
-            return leftRotate(node);
-        }
-
         /* return the (unchanged) node pointer */
         return node;
     }
@@ -141,37 +148,43 @@ public class AVLTree extends BSTree {
         return current;
     }
 
+    @Override
     public void insert() {
         super.insert();
 
-        root = super.getRoot();
+
         List<TaxPayer> taxPayerList = new ArrayList<>();
-        storeNodes(root, taxPayerList);
+        storeNodes(super.getRoot(), taxPayerList);
+        System.out.println(taxPayerList.toString());
 
         for (TaxPayer taxPayer : taxPayerList) {
             root = insert(root, taxPayer);
         }
+
+        super.setRoot(root);
     }
 
+    @Override
     public void deleteCode() {
         super.deleteCode();
 
-        root = super.getRoot();
+
         List<TaxPayer> taxPayerList = new ArrayList<>();
-        storeNodes(root, taxPayerList);
+        storeNodes(getRoot(), taxPayerList);
 
         for (TaxPayer taxPayer : taxPayerList) {
             root = insert(root, taxPayer);
         }
+
+        super.setRoot(root);
     }
 
     private void storeNodes(Node node, List<TaxPayer> taxPayerList) {
         if (node == null) {
             return;
         }
-
-        storeNodes(node.getLeft(), taxPayerList);
         taxPayerList.add(node.getData());
+        storeNodes(node.getLeft(), taxPayerList);
         storeNodes(node.getRight(), taxPayerList);
     }
 
