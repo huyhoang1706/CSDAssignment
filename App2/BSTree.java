@@ -34,11 +34,11 @@ public class BSTree {
             return;
         }
         insert(taxPayer);
+        count++;
     }
 
     public void insert(TaxPayer taxPayer) {
         root = insert(root, taxPayer);
-        count++;
     }
 
     public void inOrderTraverse() {
@@ -55,12 +55,20 @@ public class BSTree {
 
     public void searchByCode() {
         Integer searchCode = input.getInt("Enter Search Code: ", 0, Integer.MAX_VALUE);
-        search(root, searchCode);
+        Node result = search(root, searchCode);
+        if (result != null) {
+            System.out.println(result);
+        }
     }
 
     public void deleteCode() {
         Integer deleteCode = input.getInt("Enter Delete Code: ", 0, Integer.MAX_VALUE);
+        if (!contain(deleteCode)) {
+            System.out.println("There is no node have this code!");
+            return;
+        }
         delete(root, deleteCode);
+        count--;
     }
 
     public void balance() {
@@ -187,16 +195,6 @@ public class BSTree {
             return node;
         }
 
-    }
-
-    // Utility method to find the minimum value in a subtree
-    private TaxPayer minValue(Node node) {
-        TaxPayer minValue = node.getData();
-        while (node.getLeft() != null) {
-            minValue = node.getLeft().getData();
-            node = node.getLeft();
-        }
-        return minValue;
     }
 
     private void getArrayListInOrder(Node node, List<Node> nodes) {
