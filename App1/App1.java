@@ -3,11 +3,12 @@ package App1;
 import shared.Input;
 import shared.FileManage;
 import shared.TaxPayer;
+import java.util.LinkedList;
 
 public class App1 {
     private final Input input = new Input();
     private final FileManage fileManager = new FileManage();
-    private final LinkList<TaxPayer> linkList = new LinkList<TaxPayer>();
+    private final LinkList linkList = new LinkList();
     public void run() {
 
         while (true) { // Infinite Loop
