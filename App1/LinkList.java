@@ -5,16 +5,19 @@ import shared.FileManage;
 import shared.Input;
 import shared.TaxPayer;
 
+import java.util.LinkedList;
+
 public class LinkList <E extends Comparable<E>>{
-    private static class Node<E> {
+    public static class Node<E> {
         TaxPayer infor;
-        Node next;
+        public Node next;
 
         public Node(TaxPayer infor, Node next) {
             this.infor = infor;
             this.next = next;
         }
-
+        public Node() {
+        }
 
         public Node(TaxPayer infor) {
             this(infor, null);
@@ -42,7 +45,8 @@ public class LinkList <E extends Comparable<E>>{
     private final Input input = new Input();
 
 
-    Node<E> head, tail;
+    public Node<E> head;
+    Node<E> tail;
     Node<E> sorted;
 
     public void linkList() {
@@ -92,7 +96,7 @@ public class LinkList <E extends Comparable<E>>{
         }
     }
 
-    public Node searchByCode() {
+    public Node searchByCode0() {
         String code = input.getString("Enter code: ");
         if (code == null || code.isEmpty()) {
             // Handle invalid input
@@ -100,14 +104,14 @@ public class LinkList <E extends Comparable<E>>{
             return null;
         }
 
-        Node currNode = head;
+        Node<E> currNode = head;
         // Traverse the linked list to find the node with the given code
         while (currNode != null) {
-            if (currNode.infor.getCode().equals(code)) {
+            if (currNode.getInfor().getCode().equals(code)) {
                 // Return the node if the code matches
                 return currNode;
             }
-            currNode = currNode.next;
+            currNode = currNode.getNext();
         }
         System.out.println("Code doesn't exist");
         // If code is not found, you may choose to return null or throw an exception
@@ -115,52 +119,52 @@ public class LinkList <E extends Comparable<E>>{
         return null;
     }
 
-
-    // sort linked list
-//    public void sort() {
-//        sorted = null;
-//        Node<E> currentNode = head;
+    public void searchByCode(){
+        Node res = searchByCode0();
+        if(res != null){
+            TaxPayer taxPayer = res.getInfor();
+            System.out.println(taxPayer.toString());
+        }
+    }
+   // Integer code, String name, double income, double deduct, double tax
+//    public  void searchByPCode(LinkedList<TaxPayer> mp){
 //
-//        while (currentNode != null) {
-//            Node<E> next = currentNode.next;
-//            sortInsert(currentNode);
-//            currentNode = next;
+//        int pCode = input.getInt("Enter code: ", 1, Integer.MAX_VALUE);
+//
+//        TaxPayer p;  //Define a Product
+//        if((p = mp.search(new TaxPayer(pCode,"", 0,0,0))) == null){
+//            System.err.println("Not found!");
+//            return;
 //        }
-//        head = sorted;
+//        System.out.println(p.toString());
 //    }
-//    void sortInsert(Node<E> newNode) {
-//        // Specail case for head end
-//        if (sorted == null || sorted.info.compareTo(newNode.info) <= 0) { //>=
-//            newNode.next = sorted;
-//            sorted = newNode;
-//        } else {
-//            Node<E> currentNode = sorted;
-//            /* Locate the node before the point of insertion */
-//            while (currentNode.next != null && currentNode.next.info.compareTo(newNode.info) > 0) { //<
-//                currentNode = currentNode.next;
-//            }
-//            newNode.next = currentNode.next;
-//            currentNode.next = newNode;
-//        }
-//    }
-
-
+    
     public void deleteByCode() {
         String code = input.getString("Enter Code: ");
-        Node currNode = head;
-        Node prevNode = null;
+        if (head == null) {
+            System.out.println("The list is empty");
+            return;
+        }
+
+        Node<E> currNode = head;
+        Node<E> prevNode = null;
+
         while (currNode != null) {
-            if (currNode.infor.getCode().equals(code)) {
+            if (currNode.getInfor().getCode().equals(code)) {
                 if (prevNode == null) {
-                    head = currNode.next;
+                    // If the node to delete is the head
+                    head = currNode.getNext();
                 } else {
-                    prevNode.next = currNode.next;
+                    prevNode.setNext(currNode.getNext());
                 }
-                return;
+                return; // Node found and deleted
             }
             prevNode = currNode;
-            currNode = currNode.next;
+            currNode = currNode.getNext();
         }
+
+        // Node with the given code not found
+        System.out.println("Node with code " + code + " not found in the list.");
     }
 
 

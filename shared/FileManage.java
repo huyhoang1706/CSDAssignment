@@ -29,6 +29,7 @@ public class FileManage {
                 taxPayer.setTax(taxPayer.getTax());
                 list.addToEnd(taxPayer);
             }
+
             System.err.println("Load successful!");
         } catch (FileNotFoundException e) {
             System.out.println("ERROR. FILE NOT FOUND");
@@ -53,25 +54,27 @@ public class FileManage {
                 tree.insert(taxPayer);
             }
             System.err.println("Load successful!");
+
         } catch (FileNotFoundException e) {
             System.out.println("ERROR. FILE NOT FOUND");
         }
     }
 
 
-    public void saveToFile(LinkList list) {
-        List<TaxPayer> taxPayerList = new ArrayList<TaxPayer>((Collection<? extends TaxPayer>) list); // Assuming LinkList implements Iterable
-
+    public void saveToFile(LinkList<TaxPayer> list) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(OUTPUT_URL))) {
-            for (TaxPayer taxPayer : taxPayerList) {
-                // Write each TaxPayer object followed by a newline
-                writer.write(taxPayer.toString());
+            LinkList.Node<TaxPayer> current = list.head;
+            while (current != null) {
+                writer.write(current.getInfor().toString());
                 writer.newLine();
+                current = current.next;
             }
+            System.err.println("Save Successfull!");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     public void saveToFile(List<String> list) {
         try {
