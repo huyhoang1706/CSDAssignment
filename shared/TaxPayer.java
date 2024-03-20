@@ -73,6 +73,7 @@ public class TaxPayer implements Comparable<TaxPayer>{
 
     @Override
     public String toString() {
-        return "{ "+code+", "+name+", "+income+", "+deduct+", "+tax+" }";
+        return code+", "+name+", "+income+
+                ", "+deduct+", "+tax;
     }
 }

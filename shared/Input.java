@@ -44,19 +44,11 @@ public class Input {
         }
     }
 
-    public String getString (String message) {
-        while (true) {
-            System.out.print(message);
-            String input = sc.nextLine().trim();
-            if (!input.isEmpty()) return input;
-            System.out.println("Input cannot be empty");
-        }
-    }
 
     public String getString (String message, String type) {
         String regex = "";
         switch (type) {
-            case "name" -> regex = "\\b([A-Z][a-z]+\\s*)+";
+            case "name" -> regex = "\\b([A-Z][a-z]*\\s*)+";
         }
         while (true) {
             System.out.print(message);

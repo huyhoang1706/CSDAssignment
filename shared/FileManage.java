@@ -18,22 +18,25 @@ public class FileManage {
             File file = new File(TAXPAYER_URL);
             Scanner myReader = new Scanner(file);
             while(myReader.hasNextLine()){
-                String data = myReader.nextLine();
-                String[] details = data.split("_");
-                TaxPayer taxPayer = new TaxPayer();
-                double income = Double.parseDouble(details[2]);
-                double deduction = Double.parseDouble(details[3]);
-                taxPayer.setCode(Integer.parseInt(details[0]));
-                taxPayer.setName(details[1]);
-                taxPayer.setIncome(income);
-                taxPayer.setDeduct(deduction);
-                taxPayer.setTax(taxPayer.getTax());
+                TaxPayer taxPayer = getDetails(myReader);
                 list.addToEnd(taxPayer);
             }
-            System.err.println("Load successful!");
+            System.out.println("Load successful!");
         } catch (FileNotFoundException e) {
             System.out.println("ERROR. FILE NOT FOUND");
         }
+    }
+
+    private TaxPayer getDetails(Scanner myReader) {
+        String data = myReader.nextLine();
+        String[] details = data.split(", ");
+        TaxPayer taxPayer = new TaxPayer();
+        taxPayer.setCode(Integer.parseInt(details[0]));
+        taxPayer.setName(details[1]);
+        taxPayer.setIncome(Double.parseDouble(details[2]));
+        taxPayer.setDeduct(Double.parseDouble(details[3]));
+        taxPayer.setTax(taxPayer.getTax());
+        return taxPayer;
     }
 
     public void loadFromFile(BSTree tree) {
@@ -41,33 +44,12 @@ public class FileManage {
             File file = new File(TAXPAYER_URL);
             Scanner myReader = new Scanner(file);
             while(myReader.hasNextLine()){
-                String data = myReader.nextLine();
-                String[] details = data.split("_");
-                TaxPayer taxPayer = new TaxPayer();
-                double income = Double.parseDouble(details[2]);
-                double deduction = Double.parseDouble(details[3]);
-                taxPayer.setCode(Integer.parseInt(details[0]));
-                taxPayer.setName(details[1]);
-                taxPayer.setIncome(income);
-                taxPayer.setDeduct(deduction);
-                taxPayer.setTax(taxPayer.getTax());
+                TaxPayer taxPayer = getDetails(myReader);
                 tree.insert(taxPayer);
             }
-            System.err.println("Load successful!");
+            System.out.println("Load successful!");
         } catch (FileNotFoundException e) {
             System.out.println("ERROR. FILE NOT FOUND");
-        }
-    }
-
-    public void saveToFile(LinkList list) {
-        try {
-            FileWriter fileWriter = new FileWriter(OUTPUT_URL);
-/*            for (TaxPayer taxPayer : list) { // Muốn fix thì phải implements Iterable
-                fileWriter.write(taxPayer.toString());
-            }*/
-            fileWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 

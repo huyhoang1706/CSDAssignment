@@ -34,6 +34,9 @@ public class AVLTree extends BSTree {
     // See the diagram given above.
     Node rightRotate(Node y)
     {
+        if (y == null || y.getLeft() == null) {
+            return y;
+        }
         Node x = y.getLeft();
         Node T2 = x.getRight();
 
@@ -53,6 +56,9 @@ public class AVLTree extends BSTree {
     // See the diagram given above.
     Node leftRotate(Node x)
     {
+        if (x == null || x.getRight() == null) {
+            return x;
+        }
         Node y = x.getRight();
         Node T2 = y.getLeft();
 
@@ -82,10 +88,10 @@ public class AVLTree extends BSTree {
         if (node == null)
             return (new Node(taxPayer));
 
-        if (taxPayer.getCode().compareTo(node.getData().getCode()) > 0) {
+        if (taxPayer.getCode().compareTo(node.getData().getCode()) < 0) {
             node.setLeft(insert(node.getLeft(), taxPayer));
         }
-        else if (taxPayer.getCode().compareTo(node.getData().getCode()) < 0)
+        else if (taxPayer.getCode().compareTo(node.getData().getCode()) > 0)
             node.setRight(insert(node.getRight(), taxPayer));
         else // Equal keys not allowed
             return node;
@@ -127,39 +133,31 @@ public class AVLTree extends BSTree {
         return node;
     }
 
-    Node minValueNode(Node node)
-    {
-        Node current = node;
-
-        /* loop down to find the leftmost leaf */
-        while (current.getLeft() != null)
-            current = current.getLeft();
-
-        return current;
-    }
-
     public void insert() {
         super.insert();
 
         root = super.getRoot();
         List<TaxPayer> taxPayerList = new ArrayList<>();
-        storeNodes(root, taxPayerList);
+        storeNodes(super.getRoot(), taxPayerList);
 
         for (TaxPayer taxPayer : taxPayerList) {
             root = insert(root, taxPayer);
         }
+        super.setRoot(root);
     }
+
 
     public void deleteCode() {
         super.deleteCode();
 
-        root = super.getRoot();
         List<TaxPayer> taxPayerList = new ArrayList<>();
-        storeNodes(root, taxPayerList);
+        storeNodes(super.getRoot(), taxPayerList);
 
         for (TaxPayer taxPayer : taxPayerList) {
             root = insert(root, taxPayer);
         }
+
+        super.setRoot(root);
     }
 
     private void storeNodes(Node node, List<TaxPayer> taxPayerList) {

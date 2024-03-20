@@ -27,6 +27,10 @@ public class BSTree {
         return root;
     }
 
+    public void setRoot(Node root) {
+        this.root = root;
+    }
+
     public void insert() {
         TaxPayer taxPayer = input.getTaxPayer();
         if (contain(taxPayer.getCode())) {
@@ -34,11 +38,11 @@ public class BSTree {
             return;
         }
         insert(taxPayer);
-        count++;
     }
 
     public void insert(TaxPayer taxPayer) {
         root = insert(root, taxPayer);
+        count++;
     }
 
     public void inOrderTraverse() {
@@ -92,7 +96,7 @@ public class BSTree {
         if (node == null) {
             node = new Node(data);
         } else {
-            if (data.getCode().compareTo(node.getData().getCode()) > 0) {
+            if (data.getCode().compareTo(node.getData().getCode()) < 0) {
                 node.setLeft(insert(node.getLeft(), data));
             } else {
                 node.setRight(insert(node.getRight(), data));
@@ -137,7 +141,7 @@ public class BSTree {
         queue.add(node);
         while (!queue.isEmpty()) {
             Node tempNode = queue.poll();
-            System.out.println(node.getData() + " ");
+            System.out.println(tempNode.getData());
 
             if (tempNode.getLeft() != null) {
                 queue.add(tempNode.getLeft());

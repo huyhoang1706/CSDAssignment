@@ -11,9 +11,7 @@ public class Menu {
         System.out.println("7. Sort By Code");
         System.out.println("8. Input & add to beginning");
         System.out.println("9. Add after position k");
-        System.out.println("10. Delete position k");
+        System.out.println("10. Delete at position k");
         System.out.println("0. Exit");
     }
-
-    public static void displayData() {}
 }
