@@ -160,7 +160,7 @@ public class LinkList {
             return;
         }
         tail.next = newNode;
-        tail = tail.next;
+        tail = newNode;
     }
 
     public boolean isEmpty() {

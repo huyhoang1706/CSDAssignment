@@ -75,16 +75,35 @@ public class BSTree {
         count--;
     }
 
-    public void balance() {
-        //Solution: traverse nodes in Inorder and one by one insert into a self-balancing BST
-        root = balanceBST(root);
-        breadthFirstTraverse();
-    }
-
     public void inOrderTraverseToFile() {
         List<String> taxPayerList = new ArrayList<>();
         inOrderToFile(root, taxPayerList);
         fileManage.saveToFile(taxPayerList);
+    }
+
+    public void balance(){
+        List <Node> list = new ArrayList<>();
+        inOrderToList(list,root);
+        int n = list.size();
+        BSTree tempTree = new BSTree();
+        tempTree.balance(list, 0, n-1);
+        root = tempTree.getRoot();
+        breadthFirstTraverse();
+    }
+
+    private void inOrderToList(List<Node> list, Node node) {
+        if(node==null) return;
+        inOrderToList(list,node.getLeft());
+        list.add(node);
+        inOrderToList(list,node.getRight());
+    }
+    private void balance(List<Node> list, int lower, int upper) {
+        if(lower > upper) return;
+        int mid=(lower+upper)/2;
+        TaxPayer data = list.get(mid).getData();
+        insert(data);
+        balance(list, lower,mid-1);
+        balance(list, mid+1, upper);
     }
 
     public void count() {
@@ -199,32 +218,6 @@ public class BSTree {
             return node;
         }
 
-    }
-
-    private void getArrayListInOrder(Node node, List<Node> nodes) {
-        if (node == null) return;
-        getArrayListInOrder(node.getLeft(), nodes);
-        nodes.add(node);
-        getArrayListInOrder(node.getRight(), nodes);
-    }
-
-    private Node constructSelfBalanceBST(List<Node> nodes, int start, int end) {
-        if (start < end) return null;
-
-        int mid = (start + end) / 2;
-        Node node = nodes.get(mid);
-
-        node.setLeft(constructSelfBalanceBST(nodes, start, mid-1));
-        node.setRight(constructSelfBalanceBST(nodes, mid+1, start));
-
-        return node;
-    }
-
-    private Node balanceBST(Node node) {
-        List<Node> nodes = new ArrayList<>();
-        getArrayListInOrder(node, nodes);
-        int size = nodes.size();
-        return constructSelfBalanceBST(nodes, 0, size-1);
     }
 
     private void inOrderToFile(Node node, List<String> stringList) {

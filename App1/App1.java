@@ -8,7 +8,6 @@ public class App1 {
     private final FileManage fileManager = new FileManage();
     private final LinkList linkList = new LinkList();
     public void run() {
-
         while (true) { // Infinite Loop
             // Display Menu
             Menu.display();

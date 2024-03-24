@@ -16,16 +16,16 @@ public class App2 {
             // Perform action base on choice
             switch (choice) {
                 case 0 -> System.exit(0);
-                case 1 -> fileManage.loadFromFile(avlTree);
-                case 2 -> avlTree.insert() ;
-                case 3 -> avlTree.inOrderTraverse();
-                case 4 -> avlTree.preOrderTraverse();
-                case 5 -> avlTree.breadthFirstTraverse();
-                case 6 -> avlTree.inOrderTraverseToFile();
-                case 7 -> avlTree.searchByCode();
-                case 8 -> avlTree.deleteCode();
+                case 1 -> fileManage.loadFromFile(bsTree);
+                case 2 -> bsTree.insert() ;
+                case 3 -> bsTree.inOrderTraverse();
+                case 4 -> bsTree.preOrderTraverse();
+                case 5 -> bsTree.breadthFirstTraverse();
+                case 6 -> bsTree.inOrderTraverseToFile();
+                case 7 -> bsTree.searchByCode();
+                case 8 -> bsTree.deleteCode();
                 case 9 -> bsTree.balance();
-                case 10 -> avlTree.count();
+                case 10 -> bsTree.count();
             }
         }
     }
